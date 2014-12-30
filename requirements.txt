@@ -1,0 +1,17 @@
+Scrapy==0.24.4
+Twisted==14.0.2
+cffi==0.8.6
+cryptography==0.7
+cssselect==0.9.1
+enum34==1.0.4
+lxml==3.4.1
+mongoengine==0.8.7
+pyOpenSSL==0.14
+pyasn1==0.1.7
+pycparser==2.10
+pymongo==2.7.2
+queuelib==1.2.2
+six==1.8.0
+w3lib==1.10.0
+wsgiref==0.1.2
+zope.interface==4.1.1
