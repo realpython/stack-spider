@@ -21,15 +21,11 @@ class StackSpider(CrawlSpider):
 
     def parse(self, response):
         hxs = HtmlXPathSelector(response)
-        questions = hxs.xpath('//div[@class="summary"]')
-        items = []
+        questions = hxs.xpath('//div[@class="summary"]/h3')
         for question in questions:
             item = StackItem()
-            title = question.xpath(
-                '//a[@class="question-hyperlink"]/text()').extract()
-            url = question.xpath(
-                '//a[@class="question-hyperlink"]/@href').extract()
-            item['title'] = title
-            item['url'] = url
-            items.append(item)
-        return items
+            item['title'] = question.xpath(
+                'a[@class="question-hyperlink"]/text()').extract()[0]
+            item['url'] = question.xpath(
+                'a[@class="question-hyperlink"]/@href').extract()[0]
+            yield item
