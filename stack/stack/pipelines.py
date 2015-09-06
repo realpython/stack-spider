@@ -6,6 +6,10 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+# class StackPipeline(object):
+#     def process_item(self, item, spider):
+#         return item
+
 import pymongo
 
 from scrapy.conf import settings
@@ -16,7 +20,7 @@ from scrapy import log
 class MongoDBPipeline(object):
 
     def __init__(self):
-        connection = pymongo.Connection(
+        connection = pymongo.MongoClient(
             settings['MONGODB_SERVER'],
             settings['MONGODB_PORT']
         )
@@ -24,10 +28,13 @@ class MongoDBPipeline(object):
         self.collection = db[settings['MONGODB_COLLECTION']]
 
     def process_item(self, item, spider):
+        valid = True
         for data in item:
             if not data:
-                raise DropItem("Missing data!")
-        self.collection.update({'url': item['url']}, dict(item), upsert=True)
-        log.msg("Question added to MongoDB database!",
-                level=log.DEBUG, spider=spider)
+                valid = False
+                raise DropItem("Missing {0}!".format(data))
+        if valid:
+            self.collection.insert(dict(item))
+            log.msg("Question added to MongoDB database!",
+                    level=log.DEBUG, spider=spider)
         return item
