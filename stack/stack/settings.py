@@ -9,6 +9,8 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
+DOWNLOAD_DELAY = 5
+
 BOT_NAME = 'stack'
 
 SPIDER_MODULES = ['stack.spiders']
